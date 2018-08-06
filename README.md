@@ -50,6 +50,15 @@ Use the axis attribute to lock the dragging to a specific axis. By default, both
 <div drag-scroll axis="y">
 ```
 
+### Mouse Wheel (Y-Axis only)
+You can use mouse wheell as long the mouse drag, place the attribute bellow, default false:
+```html
+<!-- Enable -->
+<div drag-scroll mousewheel="true">
+<!-- Use custom height in pixels to scroll with mouse wheel -->
+<div drag-scroll mousewheel="tre" mouseWheelScroll="40">
+```
+
 ### Events
 Use the onDragStart and onDragEnd events to call functions whenever the dragging starts or stops
 ```html
