@@ -21,6 +21,7 @@
                 var onDragEnd = $parse($attributes.ondragend);
                 var axis = $attributes.axis || false;
                 var mouseWheel = $attributes.mousewheel || false;
+                var mouseWheelScroll = $attributes.mousewheelscroll || 40;
                 var excludedClasses = $attributes.dragScrollExcludedClasses ? $attributes.dragScrollExcludedClasses.split(',') : [];
                 var startClientX;
                 var startClientY;
@@ -43,6 +44,26 @@
                 function setDragListeners () {
                     angular.element($window).on('mouseup', handleMouseUp);
                     angular.element($window).on('mousemove', handleMouseMove);
+                    if (mouseWheel)
+                    {
+                        angular.element($window).on('mousewheel', function( event ){
+                            var event = window.event || event; // old IE support
+                            var delta = Math.max(-1, Math.min(1, (event.wheelDelta || -event.detail)));
+                            if(delta > 0) 
+                            {
+                                
+                                if(!axis || axis === 'y') {
+                                    $element[0].scrollTop -= mouseWheelScroll;
+                                }
+                            }
+                            else
+                            {
+                                if(!axis || axis === 'y') {
+                                    $element[0].scrollTop += mouseWheelScroll;
+                                }
+                            }
+                        });
+                    }
                 }
 
                 /**
@@ -51,6 +72,10 @@
                 function removeDragListeners () {
                     angular.element($window).off('mouseup', handleMouseUp);
                     angular.element($window).off('mousemove', handleMouseMove);
+                    if (mouseWheel)
+                    {
+                        angular.element($window).off('mousewheel', handleMouseMove);
+                    }
                 }
 
                 /**
